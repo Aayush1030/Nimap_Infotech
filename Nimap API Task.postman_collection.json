@@ -1,0 +1,234 @@
+{
+	"info": {
+		"_postman_id": "1c98a95b-ec75-4223-b3b4-693ea48a9801",
+		"name": "Nimap API Task",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "48331133",
+		"_collection_link": "https://www.postman.com/aayushbathav30-8868365/workspace/nimap-infotech/collection/48331133-1c98a95b-ec75-4223-b3b4-693ea48a9801?action=share&source=collection_link&creator=48331133"
+	},
+	"item": [
+		{
+			"name": "Add User With Valid Credentials",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"base_url\",\"https://testffc.nimapinfotech.com\");\r",
+							"pm.environment.set(\"user_Id\",\"9519519519\");\r",
+							"pm.environment.set(\"user_password\",\"12345678\");\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Your test name\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.success).to.eql(true);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type is application/json\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"    });"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"{{user_Id}}\",\r\n    \"password\": \"{{user_password}}\"\r\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/account/authenticate",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"account",
+						"authenticate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "With Invalid Credentials",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"password\",\"1234567890\");"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Validate Response Data\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.success).to.eql(false);\r",
+							"    pm.expect(jsonData.errormessage).to.eql(\"Invalid Email Id / Mobile No or Password.\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type is application/json\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"{{user_Id}}\",\r\n    \"password\": \"{{password}}\"\r\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/account/authenticate",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"account",
+						"authenticate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Customer",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"lead_name\",\"William Goslin\");\r",
+							"pm.environment.set(\"lead_email\", \"williamgoslin@example.com\");"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"pm.test(\"Your test name\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.LaedNmae).to.eql(\"Wiiliam Goslin\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Your test name\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Email).to.eql(\"williamgoslin@g,ail.com\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{user_password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{user_Id}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"LeadName\":\"{{lead_name}}\",\r\n    \"Email\": \"{{lead_email\"\r\n   }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://testffc.nimapinfotech.com/api/CRM/AddLead",
+					"protocol": "https",
+					"host": [
+						"testffc",
+						"nimapinfotech",
+						"com"
+					],
+					"path": [
+						"api",
+						"CRM",
+						"AddLead"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
